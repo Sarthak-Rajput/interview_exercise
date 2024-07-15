@@ -7,7 +7,7 @@ export class MessageController {
   constructor(private readonly messageData: MessageData) {}
 
   @Post()
-  async create(@Body() createMessageDto: CreateMessageDto) {
+  async create(@Body() createMessageDto: MessageDto) {
     return this.messageData.create(createMessageDto);
   }
 
@@ -17,7 +17,7 @@ export class MessageController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
+  async update(@Param('id') id: string, @Body() updateMessageDto: MessageDto) {
     return this.messageData.update(id, updateMessageDto);
   }
 
