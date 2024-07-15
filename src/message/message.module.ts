@@ -14,6 +14,7 @@ import { ConversationModule } from '../conversation/conversation.module';
 import { SafeguardingModule } from '../safeguarding/safeguarding.module';
 import { ChatMessageDataLoader } from './message.dataloader';
 import { UserBlocksModule } from '../user-blocks/user-blocks.module';
+import { MessageController } from './message.controller'; // Import your new controller
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -34,7 +35,7 @@ import { UserBlocksModule } from '../user-blocks/user-blocks.module';
     ConfigService,
     ChatMessageDataLoader,
   ],
-  controllers: [],
+  controllers: [MessageController],
   exports: [MessageData, MessageLogic, ChatMessageDataLoader],
 })
 export class MessageModule {}

@@ -361,4 +361,41 @@ export class MessageData {
 
     return chatMessageToObject(updatedResult);
   }
+
+  // Add new methods for tagging
+  async addTag(messageId: ObjectID, tag: string): Promise<ChatMessage> {
+    const query = { _id: messageId };
+    const updateDocument = { $addToSet: { tags: tag } };
+    const updatedResult = await this.chatMessageModel.findOneAndUpdate(
+      query,
+      updateDocument,
+      {
+        new: true,
+        returnOriginal: false,
+      },
+    );
+    if (!updatedResult) throw new Error('Failed to add tag');
+    return chatMessageToObject(updatedResult);
+  }
+
+  async removeTag(messageId: ObjectID, tag: string): Promise<ChatMessage> {
+    const query = { _id: messageId };
+    const updateDocument = { $pull: { tags: tag } };
+    const updatedResult = await this.chatMessageModel.findOneAndUpdate(
+      query,
+      updateDocument,
+      {
+        new: true,
+        returnOriginal: false,
+      },
+    );
+    if (!updatedResult) throw new Error('Failed to remove tag');
+    return chatMessageToObject(updatedResult);
+  }
+
+  async getMessagesByTag(tag: string): Promise<ChatMessage[]> {
+    const chatMessages = await this.chatMessageModel.find({ tags: tag });
+    return chatMessages.map((chatMessage) => chatMessageToObject(chatMessage));
+  }
+
 }
